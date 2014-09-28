@@ -50,7 +50,7 @@ ergoApp.config(['$stateProvider', '$urlRouterProvider',
         .state('root.resultats', {
             url: '/resultats',
             templateUrl: 'views/Boat/boat-results.html',
-            controller: 'BoatListCtrl'
+            controller: 'BoatResultCtrl'
         })
         // partie admin
         .state('admin', {
