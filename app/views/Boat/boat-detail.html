@@ -1,0 +1,86 @@
+<div class="container-fluid">
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <h1 class="text-center">{{ boat.name }}</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2 text-center">
+        <a ui-sref="admin.boats"><span class="glyphicon glyphicon-arrow-left"></span> Retour à la liste</a>
+    </div>
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title text-center">Référent</h4>
+            </div>
+            <div class="panel-body">
+                <dl class="dl-horizontal">
+                    <dt>Nom</dt>
+                    <dd>{{ boat.leader.rower.lastname | uppercase }}</dd>
+                    <dt>Prénom</dt>
+                    <dd>{{ boat.leader.rower.firstname }}</dd>
+                    <dt>Email</dt>
+                    <dd><a title="Envoyer un mail à {{ boat.leader.rower.firstname }}" href="mailto:{{ boat.leader.email }}">{{ boat.leader.email }}</a></dd>
+                    <dt>Téléphone</dt>
+                    <dd>{{ boat.leader.phone | phoneDisp }}</dd>
+                    <dt>Club</dt>
+                    <dd>{{ boat.leader.club }}</dd>
+                </dl>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title text-center">Informations sur le bateau</h4>
+            </div>
+            <div class="panel-body">
+                <dl class="dl-horizontal">
+                    <dt>Catégorie</dt>
+                    <dd>{{ boat.category | catDisp }}</dd>
+                    <dt>État</dt>
+                    <dd>
+                        <span ng-if="boat.valid" class="label label-success">validé</span>
+                        <span ng-if="!boat.valid" class="label label-danger">non validé</span>
+                        <span ng-if="boat.payment" class="label label-success">payé</span>
+                        <span ng-if="!boat.payment" class="label label-danger">non payé</span>
+                    </dd>
+                    <dt>Temps effectué</dt>
+                    <dd>
+                        <span ng-if="boat.record == 0">N/A</span>
+                        <span ng-if="boat.record != 0" class="label label-info">{{ boat.record | recordDisp }}</span>
+                    </dd>
+                    <dt>Équipage</dt>
+                    <dd ng-repeat="rower in boat.rowers | orderBy:'lastname'">
+                        {{ rower.lastname | uppercase }} {{ rower.firstname }}<br />
+                    </dd>
+                </dl>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title text-center">Opérations</h4>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div ng-class="!boat.payment && 'col-md-6 text-center' || 'col-md-12 text-center'" ng-if="!boat.valid">
+                        <a class="btn btn-primary" ng-click="validBoat()">Valider le bateau</a>
+                    </div>
+                    <div ng-class="!boat.payment && 'col-md-6 text-center' || 'col-md-12 text-center'" ng-if="boat.valid">
+                        <form class="form-inline" ng-submit="recordBoat(record)">
+                            <div class="form-group">
+                                <label for="boatRecordInput" class="sr-only">Temps effectué</label>
+                                <input type="text" class="form-control" id="boatRecordInput" placeholder="xx:xx:xxx" ng-focus="expression" ng-model="record" ui-mask="99:99:999" />
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-primary" value="Valider le temps" />
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-6 text-center" ng-if="!boat.payment">
+                        <a class="btn btn-primary" ng-click="payBoat()">Valider le paiement</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

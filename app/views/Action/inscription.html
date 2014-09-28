@@ -1,0 +1,147 @@
+<div class="container-fluid">
+<div class="row">
+    <div class="col-md-10 col-md-offset-1 well">
+        <h1 class="text-center">Inscription à la compétition</h1>
+        
+        <div ng-if="etape == 1">
+            <h3 class="text-center">Étape 1 &mdash; Bateau</h3>
+            <form class="form-horizontal" role="form" ng-submit="addBoat(boat)">
+                <div class="form-group">
+                    <label for="inputBoatName" class="col-md-2 text-right control-label">Nom du bateau</label>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" id="inputBoatName" ng-model="boat.name" placeholder="Nom du bateau">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputBoatCategory" class="col-md-2 text-right control-label">Catégorie</label>
+                    <div class="col-md-10">
+                        <select class="form-control" ng-model="boat.category" id="inputBoatCategory">
+                            <option></option>
+                            <option ng-repeat="cat in categories" value="{{ cat }}">{{ cat | catDisp }}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="text-center">
+                        <input type="submit" class="btn btn-primary" value="Suivant" />
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div ng-if="etape == 2">
+            <h3 class="text-center">Étape 2 &mdash; Membre référent</h3>
+            <p class="lead">Renseignez soigneusement ces informations. Elles nous serviront à vous confirmer votre inscription et éventuellement à vous contacter en cas de problème.</p>
+            <form class="form-horizontal" role="form" ng-submit="addLeader(leader)">
+                <div class="form-group">
+                    <label for="inputLeaderLastname" class="col-md-2 text-right control-label">Nom</label>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" id="inputLeaderLastname" ng-model="leader.lastname" placeholder="Nom">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputLeaderFirstname" class="col-md-2 text-right control-label">Prénom</label>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" id="inputLeaderFirstname" ng-model="leader.firstname" placeholder="Prénom">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputLeaderEmail" class="col-md-2 text-right control-label">Email</label>
+                    <div class="col-md-10">
+                        <input type="email" class="form-control" id="inputLeaderEmail" ng-model="leader.email" placeholder="Email">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputLeaderPhone" class="col-md-2 text-right control-label">Téléphone</label>
+                    <div class="col-md-10">
+                        <input type="tel" class="form-control" id="inputLeaderPhone" ng-model="leader.phone" placeholder="Téléphone">
+                        <span class="help-block">Entrez votre numéro de téléphone au format "06xxxxxxxx" (pas de points ni de tirets).</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputLeaderClub" class="col-md-2 text-right control-label">Club</label>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" id="inputLeaderClub" ng-model="leader.club" placeholder="Club">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="text-center">
+                        <input type="submit" class="btn btn-primary" value="Suivant" />
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div ng-if="etape == 3">
+            <h3 class="text-center">Étape 3 &mdash; Équipage</h3>
+            <p class="lead">Veuillez saisir ici les noms et prénoms des autres candidats de votre bateau.</p>
+            <form class="form-horizontal" role="form" ng-submit="addRowers(rowers)">
+                <div ng-repeat="rower in rowers">
+                <div class="form-group">
+                    <h5 class="col-md-2">Rameur {{ $index + 1 }}</h5>
+                    <label for="inputRower{{ $index }}Lastname" class="col-md-1 text-right control-label">Nom</label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="inputRower{{ $index }}Lastname" ng-model="rowers[$index].lastname" placeholder="Nom">
+                    </div>
+                    <label for="inputRower{{ $index }}Firstname" class="col-md-1 text-right control-label">Prénom</label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="inputRower{{ $index }}Firstname" ng-model="rowers[$index].firstname" placeholder="Prénom">
+                    </div>
+                </div>
+                </div>
+                <div class="form-group">
+                    <div class="text-center">
+                        <input type="submit" class="btn btn-primary" value="Suivant" />
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div ng-if="etape == 4">
+            <h3 class="text-center">Étape 4 &mdash; Vérification</h3>
+            <p class="lead">Veuillez relire les informations ci-dessous et cliquer sur <span class="label label-success">Valider</span> pour finaliser votre inscription. Vous recevrez un email de confirmation à l'adresse que vous avez fournie.</p>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Vos informations personnelles</h4>
+                </div>
+                <div class="panel-body">
+                    <dl class="dl-horizontal">
+                        <dt>Nom</dt>
+                        <dd>{{ finalBoat.leader.rower.lastname | uppercase }}</dd>
+                        <dt>Prénom</dt>
+                        <dd>{{ finalBoat.leader.rower.firstname }}</dd>
+                        <dt>Email</dt>
+                        <dd>{{ finalBoat.leader.email }}</dd>
+                        <dt>Téléphone</dt>
+                        <dd>{{ finalBoat.leader.phone | phoneDisp }}</dd>
+                        <dt>Club</dt>
+                        <dd>{{ finalBoat.leader.club }}</dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Votre bateau</h4>
+                </div>
+                <div class="panel-body">
+                    <dl class="dl-horizontal">
+                        <dt>Nom</dt>
+                        <dd>{{ finalBoat.name }}</dd>
+                        <dt>Catégorie</dt>
+                        <dd>{{ finalBoat.category | catDisp }}</dd>
+                        <dt>Équipage</dt>
+                        <dd ng-repeat="rower in finalBoat.rowers | orderBy:'lastname'">
+                            {{ rower.lastname | uppercase }} {{ rower.firstname }}<br />
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="text-center">
+                <button class="btn btn-success" ng-click="sendEmail(finalBoat)">Valider !</button>
+                &emsp;
+                <button class="btn btn-danger" title="Ceci supprimera toutes les informations que vous avez saisies." ng-click="removeBoat(finalBoat.id)">Annuler</button>
+            </button>
+        </div>
+    </div>
+</div>
+</div>
