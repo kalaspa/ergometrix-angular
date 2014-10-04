@@ -17,8 +17,9 @@
                     <div class="col-md-10">
                         <select class="form-control" ng-model="boat.category" id="inputBoatCategory">
                             <option></option>
-                            <option ng-repeat="cat in categories" value="{{ cat }}">{{ cat | catDisp }}</option>
+                            <option ng-repeat="cat in categories" value="{{ cat.code }}">{{ cat.label }}</option>
                         </select>
+                        <span class="help-block">Pour les catégories <em>universitaire</em>, tous les membres de l'équipage doivent être étudiant. Si l'un des membres est senior, la catégorie est <em>senior</em>.</span>
                     </div>
                 </div>
                 <div class="form-group">
