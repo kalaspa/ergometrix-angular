@@ -20,6 +20,7 @@ ergoServices
             valid: {method: 'POST', url: API.route('boats/valid/:id'), params: {id: $stateParams.id}},
             pay: {method: 'POST', url: API.route('boats/pay/:id'), params: {id: $stateParams.id}},
             record: {method: 'POST', url: API.route('boats/record/:id'), params: {id: $stateParams.id}},
+            softremove: {method: 'POST', url: API.route('boats/softremove/:id')},
             count: {method: 'GET', url: API.route('boats/count')}
         });
     }
