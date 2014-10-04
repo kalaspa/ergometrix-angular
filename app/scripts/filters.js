@@ -11,15 +11,16 @@ angular.module('ergoFilters', [])
             }
         };
     })
-    .filter('catDisp', function() {
+    .filter('catDisp', ['$rootScope', function($rootScope) {
         return function(catCode) {
-            var cats = new Array();
-            cats['8m'] = 'Huit masculin';
-            cats['4mix'] = 'Quatre mixte';
-            
-            return cats[catCode];
+            // transformer l'objet $rootScope.categories en tableau pour récupérer le bon label
+            var res = "";
+            angular.forEach($rootScope.categories, function(cat) {
+                if (cat.code == catCode) { res = cat.label; }
+            });
+            return res;
         }
-    })
+    }])
     .filter('recordDisp', function() {
         return function(rec) {
             var min = Math.floor(rec / 60000);
