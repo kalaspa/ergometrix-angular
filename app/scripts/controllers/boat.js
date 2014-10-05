@@ -5,13 +5,10 @@ var boatCtrl = angular.module('boatCtrl', []);
 boatCtrl
     .controller('BoatListCtrl', ['$scope', '$rootScope', 'API.Boats', 
         function($scope, $rootScope, Boats) {
-            $rootScope.page = 'boats';
+            $rootScope.pageActive = 'boats';
             $scope.boats = Boats.query();
             $scope.boatsView = 'allBoats';
-            $scope.categories = [
-                {code: '8m', label: "Huit masculin"},
-                {code: '4mix', label: 'Quatre mixte'}
-            ];
+            $scope.categories = $rootScope.categories;
             $scope.remove = function(boatId) {
                 Boats.remove({id: boatId}).$promise.then(function() {
                     $scope.boats = Boats.query();
@@ -26,14 +23,12 @@ boatCtrl
         function($scope, $rootScope, Boats) {
             $rootScope.pageActive = 'resultats';
             $scope.boats = Boats.query();
-            $scope.categories = [
-                {code: '8m', label: "Huit masculin"},
-                {code: '4mix', label: 'Quatre mixte'}
-            ];
+            $scope.categories = $rootScope.categories;
         }
     ])
     .controller('BoatDetailCtrl', ['$scope', '$rootScope', '$stateParams', 'API.Boats',
         function($scope, $rootScope, $stateParams, Boats) {
+            $rootScope.pageActive = '';
             $scope.boat = Boats.get({id: $stateParams.id});
             $scope.record = "";
             $scope.validBoat = function() {
