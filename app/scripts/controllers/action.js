@@ -36,11 +36,11 @@ actionCtrl
                 Boats.add(boat).$promise.then(function(newboat) {
                     $scope.boatId = newboat.id;
                     $scope.leader.boat = newboat.id;
-                    $scope.etape = 2;
                     $scope.rowers.length = parseInt(newboat.category.slice(0,1)) - 1; // préparation du tableaux des rameurs (taille correspondant à la catégorie)
-                    for (var i = 0; i < $scope.rowers.length - 1; i++) {
+                    for (var i = 0; i < $scope.rowers.length; i++) {
                         $scope.rowers[i] = {lastname: '', firstname: '', boat: $scope.boatId};
                     }
+                    $scope.etape = 2;
                 });
             };
             $scope.addLeader = function(leader) {
@@ -53,20 +53,28 @@ actionCtrl
                     $scope.leader.rower = rower.id;
                     //console.log($scope.leader);
                     Leaders.add($scope.leader).$promise.then(function () {
-                        $scope.etape = 3;
+                        if ($scope.rowers.length > 0) {
+                            $scope.etape = 3;
+                        } else {
+                            Boats.get({id: $scope.boatId}).$promise.then(function(boat) {
+                                $scope.finalBoat = boat;
+                                $scope.etape = 4;
+                            });
+                        }
                     });
                 });
             };
            function addRowersAux(rwrs) {
                 angular.forEach(rwrs, function(rower) {
-                    Rowers.add(rower).$promise.then(function() { return true; });
+                    Rowers.add(rower).$promise.then(function(rwr) { console.log(rwr); });
                 });
-                return true;
             };
             $scope.addRowers = function(rowers) {
                 addRowersAux(rowers);
-                $scope.etape = 4;
-                $scope.finalBoat = Boats.get({id: $scope.boatId});
+                Boats.get({id: $scope.boatId}).$promise.then(function(boat) {
+                    $scope.finalBoat = boat;
+                    $scope.etape = 4;
+                });
             };
             $scope.sendEmail = function(boat) {
                 $location.path('#/');

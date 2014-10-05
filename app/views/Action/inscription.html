@@ -73,7 +73,7 @@
             </form>
         </div>
 
-        <div ng-if="etape == 3">
+        <div ng-if="etape == 3 && rowers.length != 0">
             <h3 class="text-center">Étape 3 &mdash; Équipage</h3>
             <p class="lead">Veuillez saisir ici les noms et prénoms des autres candidats de votre bateau.</p>
             <form class="form-horizontal" role="form" ng-submit="addRowers(rowers)">
@@ -99,7 +99,7 @@
         </div>
 
         <div ng-if="etape == 4">
-            <h3 class="text-center">Étape 4 &mdash; Vérification</h3>
+            <h3 class="text-center">Étape {{ rowers.length != 0 && '4' || '3' }} &mdash; Vérification</h3>
             <p class="lead">Veuillez relire les informations ci-dessous et cliquer sur <span class="label label-success">Valider</span> pour finaliser votre inscription. Vous recevrez un email de confirmation à l'adresse que vous avez fournie.</p>
             <div class="panel panel-default">
                 <div class="panel-heading">
