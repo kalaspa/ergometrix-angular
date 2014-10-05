@@ -12,6 +12,11 @@ ergoServices
         };
     }
 ])
+.factory('API.Auth', ['API', '$resource', 
+    function (API, $resource) {
+        return $resource(API.route('auth/login'));
+    } 
+])
 .factory('API.Boats', ['API', '$resource', '$stateParams', 
     function (API, $resource, $stateParams) {
         return $resource(API.route('boats/:id'), {}, {

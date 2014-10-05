@@ -6,7 +6,8 @@ var ergoApp = angular.module('ergo.app', [
   'ui.mask',
   'ergoServices',
   'ergoFilters',
-  //'mainCtrl',
+  'ergoAuth',
+  'userCtrl',
   'boatCtrl',
   'actionCtrl',
   'adminCtrl'
@@ -76,10 +77,15 @@ ergoApp.config(['$stateProvider', '$urlRouterProvider',
             controller: 'BoatResultCtrl'
         })
         // partie admin
+        .state('root.login', {
+            templateUrl: 'views/login.html',
+            url: '/login', 
+            controller: 'UserCtrl'
+        })
         .state('admin', {
             templateUrl: 'views/admin.html',
             url: '/admin',
-            controller: function($rootScope) {
+            controller: function($scope, $rootScope) {
                 $rootScope.categories = categories;
             }
         })
@@ -100,3 +106,8 @@ ergoApp.config(['$stateProvider', '$urlRouterProvider',
         });
     }
 ]);
+
+ergoApp.config(['$httpProvider',
+    function ($httpProvider) {
+        $httpProvider.interceptors.push('AuthInterceptor');
+}]);
