@@ -7,7 +7,7 @@ actionCtrl
         function($scope, $rootScope, Boats, Rowers, Leaders, $location) {
             $rootScope.pageActive = 'inscription';
             // Variables pour les formulaires
-            $scope.categories = ['8m', '4mix'];
+            $scope.categories = $rootScope.categories;
             $scope.etape = 1;
             $scope.boatId = 0;
             $scope.rowers = []; // tableau des rameurs autres que le leader
