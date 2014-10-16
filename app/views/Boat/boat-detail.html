@@ -68,7 +68,7 @@
                         <form class="form-inline" ng-submit="recordBoat(record)">
                             <div class="form-group">
                                 <label for="boatRecordInput" class="sr-only">Temps effectué</label>
-                                <input type="text" class="form-control" id="boatRecordInput" placeholder="xx:xx:xxx" ng-focus="expression" ng-model="record" ui-mask="99:99:999" />
+                                <input type="text" class="form-control" id="boatRecordInput" placeholder="mm:ss:ddd" ng-focus="expression" ng-model="record" ui-mask="99:99:999" />
                             </div>
                             <div class="form-group">
                                 <input type="submit" class="btn btn-primary" value="Valider le temps" />
@@ -77,6 +77,10 @@
                     </div>
                     <div class="col-md-6 text-center" ng-if="!boat.payment">
                         <a class="btn btn-primary" ng-click="payBoat()">Valider le paiement</a>
+                    </div>
+                    <div class="col-md-12 text-center">
+                        <br />
+                        <a class="btn btn-danger" ng-click="removeBoat()">Supprimer le bateau</a>
                     </div>
                 </div>
             </div>

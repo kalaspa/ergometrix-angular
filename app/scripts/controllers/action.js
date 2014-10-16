@@ -77,10 +77,12 @@ actionCtrl
                 });
             };
             $scope.sendEmail = function(boat) {
-                $location.path('#/');
+                Boats.sendmail({id: boat.id}).$promise.then(function() {
+                    $location.path('#/');
+                });
             }
             $scope.removeBoat = function(boatId) {
-                Boats.remove({id: boatId}).$promise.then(function() {
+                Boats.softremove({id: boatId}).$promise.then(function() {
                     $scope.etape = 1;
                 });
             };

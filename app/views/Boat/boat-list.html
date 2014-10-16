@@ -3,7 +3,7 @@
     <h1 class="text-center">Liste des bateaux inscrits</h1>
     <div class="col-md-2">
         <div class="btn-group-vertical">
-            <a title="Afficher tous les bateaux inscrits" ng-click="boatsView = 'allBoats'" class="btn btn-default" ng-class="(boatsView == 'allBoats') && 'active'">
+            <a title="Afficher tous les bateaux inscrits (non supprimés)" ng-click="boatsView = 'allBoats'" class="btn btn-default" ng-class="(boatsView == 'allBoats') && 'active'">
                 Tous les bateaux
             </a>
             <a title="Afficher les bateaux inscrits mais non validés" ng-click="boatsView = 'toValidBoats'" class="btn btn-default" ng-class="(boatsView == 'toValidBoats') && 'active'">
@@ -11,6 +11,9 @@
             </a>
             <a title="Afficher les bateaux qui n'ont pas encore de temps" ng-click="boatsView = 'toRecordBoats'" class="btn btn-default" ng-class="(boatsView == 'toRecordBoats') && 'active'">
                 Bateaux à chronométrer
+            </a>
+            <a title="Afficher les bateaux supprimés" ng-click="boatsView = 'deletedBoats'" class="btn btn-default" ng-class="(boatsView == 'deletedBoats') && 'active'">
+                Bateaux supprimés
             </a>
         </div>
     </div>
@@ -30,10 +33,10 @@
                     <tr ng-repeat="boat in boats | filter:{category: cat.code} | orderBy:'name'">
                         <td class="text-center"><a title="Voir le détail" ui-sref="admin.boat({id: boat.id})">{{ boat.name }}</a></td>
                         <td class="text-center"><a title="Envoyer un mail à {{ boat.leader.rower.firstname }}" href="mailto:{{ boat.leader.email }}">{{ boat.leader.rower.lastname | uppercase }} {{ boat.leader.rower.firstname }}</a></td>
-                        <td ng-if="boat.payment" class="text-center"><span class="glyphicon glyphicon-ok"></span></td>
-                        <td ng-if="!boat.payment" class="text-center"><span class="glyphicon glyphicon-remove"></span></td>
                         <td ng-if="boat.valid" class="text-center"><span class="glyphicon glyphicon-ok"></span></td>
                         <td ng-if="!boat.valid" class="text-center"><span class="glyphicon glyphicon-remove"></span></td>
+                        <td ng-if="boat.payment" class="text-center"><span class="glyphicon glyphicon-ok"></span></td>
+                        <td ng-if="!boat.payment" class="text-center"><span class="glyphicon glyphicon-remove"></span></td>
                         <td ng-if="boat.record != 0" class="text-center"><span class="label label-info">{{ boat.record | recordDisp }}</span></td>
                         <td ng-if="boat.record == 0" class="text-center"><span class="glyphicon glyphicon-remove"></span></td>
                     </tr>
@@ -58,10 +61,10 @@
                     <tr ng-repeat="boat in boats | filter:{valid: false} | filter:{category: cat.code} | orderBy:'name'">
                         <td class="text-center"><a title="Voir le détail" ui-sref="admin.boat({id: boat.id})">{{ boat.name }}</a></td>
                         <td class="text-center"><a title="Envoyer un mail à {{ boat.leader.rower.firstname }}" href="mailto:{{ boat.leader.email }}">{{ boat.leader.rower.lastname | uppercase }} {{ boat.leader.rower.firstname }}</a></td>
-                        <td ng-if="boat.payment" class="text-center"><span class="glyphicon glyphicon-ok"></span></td>
-                        <td ng-if="!boat.payment" class="text-center"><span class="glyphicon glyphicon-remove"></span></td>
                         <td ng-if="boat.valid" class="text-center"><span class="glyphicon glyphicon-ok"></span></td>
                         <td ng-if="!boat.valid" class="text-center"><span class="glyphicon glyphicon-remove"></span></td>
+                        <td ng-if="boat.payment" class="text-center"><span class="glyphicon glyphicon-ok"></span></td>
+                        <td ng-if="!boat.payment" class="text-center"><span class="glyphicon glyphicon-remove"></span></td>
                         <td ng-if="boat.record != 0" class="text-center"><span class="label label-info">{{ boat.record | recordDisp }}</span></td>
                         <td ng-if="boat.record == 0" class="text-center"><span class="glyphicon glyphicon-remove"></span></td>
                     </tr>
@@ -72,7 +75,7 @@
 
     <div class="col-md-8" ng-if="boatsView == 'toRecordBoats'">
         <div ng-repeat="cat in categories">
-            <div class="panel panel-default" ng-if="(boats | filter:isNul(record) | filter:{category: cat.code}).length > 0">
+            <div class="panel panel-default" ng-if="(boats | filter:{record: 0}:true | filter:{category: cat.code}).length > 0">
                 <div class="panel-heading text-center"><h3 class="panel-title">{{ cat.label }}</h3></div>
                 <table class="table table-striped table-hover">
                     <tr>
@@ -82,13 +85,40 @@
                         <th class="text-center">Paiement</th>
                         <th class="text-center">Temps</th>
                     </tr>
-                    <tr ng-repeat="boat in boats | filter:isNul(record) | filter:{category: cat.code} | orderBy:'name'">
+                    <tr ng-repeat="boat in boats | filter:{record: 0}:true | filter:{category: cat.code} | orderBy:'name'">
                         <td class="text-center"><a title="Voir le détail" ui-sref="admin.boat({id: boat.id})">{{ boat.name }}</a></td>
                         <td class="text-center"><a title="Envoyer un mail à {{ boat.leader.rower.firstname }}" href="mailto:{{ boat.leader.email }}">{{ boat.leader.rower.lastname | uppercase }} {{ boat.leader.rower.firstname }}</a></td>
-                        <td ng-if="boat.payment" class="text-center"><span class="glyphicon glyphicon-ok"></span></td>
-                        <td ng-if="!boat.payment" class="text-center"><span class="glyphicon glyphicon-remove"></span></td>
                         <td ng-if="boat.valid" class="text-center"><span class="glyphicon glyphicon-ok"></span></td>
                         <td ng-if="!boat.valid" class="text-center"><span class="glyphicon glyphicon-remove"></span></td>
+                        <td ng-if="boat.payment" class="text-center"><span class="glyphicon glyphicon-ok"></span></td>
+                        <td ng-if="!boat.payment" class="text-center"><span class="glyphicon glyphicon-remove"></span></td>
+                        <td ng-if="boat.record != 0" class="text-center"><span class="label label-info">{{ boat.record | recordDisp }}</span></td>
+                        <td ng-if="boat.record == 0" class="text-center"><span class="glyphicon glyphicon-remove"></span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8" ng-if="boatsView == 'deletedBoats'">
+        <div ng-repeat="cat in categories">
+            <div class="panel panel-default" ng-if="(deletedBoats | filter:{category: cat.code}).length > 0">
+                <div class="panel-heading text-center"><h3 class="panel-title">{{ cat.label }}</h3></div>
+                <table class="table table-striped table-hover">
+                    <tr>
+                        <th class="text-center">Nom du bateau</th>
+                        <th class="text-center">Référent</th>
+                        <th class="text-center">Validation</th>
+                        <th class="text-center">Paiement</th>
+                        <th class="text-center">Temps</th>
+                    </tr>
+                    <tr ng-repeat="boat in deletedBoats | filter:{category: cat.code} | orderBy:'name'">
+                        <td class="text-center"><a title="Voir le détail" ui-sref="admin.boat({id: boat.id})">{{ boat.name }}</a></td>
+                        <td class="text-center"><a title="Envoyer un mail à {{ boat.leader.rower.firstname }}" href="mailto:{{ boat.leader.email }}">{{ boat.leader.rower.lastname | uppercase }} {{ boat.leader.rower.firstname }}</a></td>
+                        <td ng-if="boat.valid" class="text-center"><span class="glyphicon glyphicon-ok"></span></td>
+                        <td ng-if="!boat.valid" class="text-center"><span class="glyphicon glyphicon-remove"></span></td>
+                        <td ng-if="boat.payment" class="text-center"><span class="glyphicon glyphicon-ok"></span></td>
+                        <td ng-if="!boat.payment" class="text-center"><span class="glyphicon glyphicon-remove"></span></td>
                         <td ng-if="boat.record != 0" class="text-center"><span class="label label-info">{{ boat.record | recordDisp }}</span></td>
                         <td ng-if="boat.record == 0" class="text-center"><span class="glyphicon glyphicon-remove"></span></td>
                     </tr>
