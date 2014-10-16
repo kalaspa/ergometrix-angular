@@ -1,27 +1,31 @@
 /* app css stylesheet */
 
 @font-face{
-    font-family : "Orbitron";
-    src : url('fonts/orbitron-medium-webfont.ttf') format('truetype'),
-           url('fonts/orbitron-medium-webfont.eot') format('eot');
-    /*src:url('fonts/orbitron-medium-webfont.woff')format('woff');*/
-    font-weight: normal;
-    font-style: normal;
+  font-family : "Orbitron";
+  src : url('fonts/orbitron-medium-webfont.ttf') format('truetype'),
+         url('fonts/orbitron-medium-webfont.eot') format('eot');
+  /*src:url('fonts/orbitron-medium-webfont.woff')format('woff');*/
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face{
-    font-family: 'HAMBH';
-    src:url('fonts/HAMBH.ttf')format('truetype');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'HAMBH';
+  src:url('fonts/HAMBH.ttf')format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
 body {
   padding-top: 70px;
 }
 
+.nav > li > a.notvisible, .nav > li > a.notvisible:hover {
+  color: rgba(34, 34, 34, 1);
+}
+
 .orbitron-face {
-    font-family: "Orbitron";
+  font-family: "Orbitron";
 }
 
 .backPres {

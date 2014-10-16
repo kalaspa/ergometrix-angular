@@ -7,6 +7,7 @@ boatCtrl
         function($scope, $rootScope, Boats) {
             $rootScope.pageActive = 'boats';
             $scope.boats = Boats.query();
+            $scope.deletedBoats = Boats.deletedquery();
             $scope.boatsView = 'allBoats';
             $scope.categories = $rootScope.categories;
             $scope.remove = function(boatId) {
@@ -14,9 +15,6 @@ boatCtrl
                     $scope.boats = Boats.query();
                 });
             };
-            $scope.isNul = function(n) {
-                return n == 0;
-            }
         }
     ])
     .controller('BoatResultCtrl', ['$scope', '$rootScope', 'API.Boats',
@@ -26,18 +24,18 @@ boatCtrl
             $scope.categories = $rootScope.categories;
         }
     ])
-    .controller('BoatDetailCtrl', ['$scope', '$rootScope', '$stateParams', 'API.Boats',
-        function($scope, $rootScope, $stateParams, Boats) {
+    .controller('BoatDetailCtrl', ['$scope', '$rootScope', '$stateParams', 'API.Boats', '$location',
+        function($scope, $rootScope, $stateParams, Boats, $location) {
             $rootScope.pageActive = '';
             $scope.boat = Boats.get({id: $stateParams.id});
             $scope.record = "";
             $scope.validBoat = function() {
-                Boats.valid().$promise.then(function(boat) {
+                Boats.valid({id: $scope.boat.id}).$promise.then(function(boat) {
                     $scope.boat = boat;
                 });
             };
             $scope.payBoat = function() {
-                Boats.pay().$promise.then(function(boat) {
+                Boats.pay({id: $scope.boat.id}).$promise.then(function(boat) {
                     $scope.boat = boat;
                 });
             };
@@ -47,10 +45,17 @@ boatCtrl
                 var sec = Math.floor((record - 100000 * min) / 1000);
                 var milli = Math.floor((record - 100000 * min) - 1000 * sec);
                 var recordNum = milli + 1000 * sec + 60000 * min;
-                Boats.record({temps: recordNum}).$promise.then(function(boat) {
+                Boats.record({id: $scope.boat.id, temps: recordNum}).$promise.then(function(boat) {
                     $scope.boat = boat;
                     $scope.record = "";
                 });
+            };
+            $scope.removeBoat = function() {
+                if (confirm('Voulez-vous vraiment supprimer ce bateau ?')) {
+                    Boats.remove({id: $scope.boat.id}).$promise.then(function() {
+                        $location.path('admin/boats');
+                    });
+                }
             };
         }
     ])
