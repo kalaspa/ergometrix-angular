@@ -20,13 +20,15 @@ ergoServices
 .factory('API.Boats', ['API', '$resource', '$stateParams', 
     function (API, $resource, $stateParams) {
         return $resource(API.route('boats/:id'), {}, {
+            deletedquery: {method: 'GET', url: API.route('boats/deleted'), static: true, isArray: true},
             add: {method: 'POST', url: API.route('boats/add'), static: true},
             remove: {method: 'DELETE'},
-            valid: {method: 'POST', url: API.route('boats/valid/:id'), params: {id: $stateParams.id}},
-            pay: {method: 'POST', url: API.route('boats/pay/:id'), params: {id: $stateParams.id}},
-            record: {method: 'POST', url: API.route('boats/record/:id'), params: {id: $stateParams.id}},
-            softremove: {method: 'POST', url: API.route('boats/softremove/:id')},
-            count: {method: 'GET', url: API.route('boats/count')}
+            valid: {method: 'POST', url: API.route('boats/valid/:id'), params: {id: '@id'}},
+            pay: {method: 'POST', url: API.route('boats/pay/:id'), params: {id: '@id'}},
+            record: {method: 'POST', url: API.route('boats/record/:id'), params: {id: '@id'}},
+            softremove: {method: 'POST', url: API.route('boats/softremove/:id'), params: {id: '@id'}},
+            count: {method: 'GET', url: API.route('boats/count')},
+            sendmail: {method: 'POST', url: API.route('boats/email/:id'), params: {id: '@id'}}
         });
     }
 ])
@@ -44,4 +46,13 @@ ergoServices
             add: {method: 'POST', url: API.route('leaders/add'), static: true}
         });
     }
-]);
+])
+.factory('API.Users', ['API', '$resource', 
+    function (API, $resource) {
+        return $resource(API.route('users/:id'), {}, {
+            add: {method: 'POST', url: API.route('users/add'), static: true},
+            remove: {method: 'DELETE'}
+        });
+    }
+])
+;

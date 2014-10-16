@@ -6,8 +6,8 @@ var ergoAuth = angular.module('ergoAuth', [
 ]);
 
 ergoAuth
-.factory('AuthService', ['$injector', '$localStorage', '$q', 'API', '$location', 
-    function ($injector, $localStorage, $q, API, $location) {
+.factory('AuthService', ['$injector', '$localStorage', '$q', 'API', '$location', '$rootScope', 
+    function ($injector, $localStorage, $q, API, $location, $rootScope) {
         if ($localStorage.auth === undefined) {
             $localStorage.auth = {
                 token: null
@@ -18,11 +18,12 @@ ergoAuth
                 return $injector.get('$http').post(API.route('auth/login'), credentials).then(
                     function(response) {
                         $localStorage.auth.token = response.data.token;
-                        $location.path('admin/boats');
+                        $location.path('/admin/');
                         return response.data.user;
                     },
                     function(response) {
                         $localStorage.auth.token = null;
+                        $location.path('/login');
                         return $q.reject();
                     });
             },
@@ -58,7 +59,7 @@ ergoAuth
                 if (response.status === 401) {
                     AuthService.logout();
                     // TODO: Redirect user to login page.
-                    // $location.path('root.login');
+                    $location.path('root.login');
                 }
                 return response || $q.when(response);
             },

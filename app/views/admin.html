@@ -16,6 +16,12 @@
             <li ng-class="pageActive == 'boats' && 'active'">
               <a title="Liste des bateaux" ui-sref="admin.boats">Liste des bateaux</a>
             </li>
+            <li ng-class="pageActive == 'users' && 'active'">
+              <a title="Liste des membres du staff" ui-sref="admin.users">Administrateurs</a>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a ui-sref="root.presentation" ng-click="logout()">Déconnexion</a></li>
           </ul>
         </div>
       </div>

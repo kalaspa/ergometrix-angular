@@ -85,9 +85,18 @@ ergoApp.config(['$stateProvider', '$urlRouterProvider',
         .state('admin', {
             templateUrl: 'views/admin.html',
             url: '/admin',
-            controller: function($scope, $rootScope) {
-                $rootScope.categories = categories;
-            }
+            controller: ['$scope', '$rootScope', 'AuthService', '$location', 
+                function($scope, $rootScope, AuthService, $location) {
+                    if (!AuthService.isAuthenticated()) {
+                        $location.path('/login');
+                    }
+                    $rootScope.categories = categories;
+                    $rootScope.logout = function () {
+                        AuthService.logout();
+                        $location.path('/');
+                    }
+                }
+            ]
         })
         .state('admin.dashboard', {
             url: '/',
@@ -103,6 +112,21 @@ ergoApp.config(['$stateProvider', '$urlRouterProvider',
             url: '/boats/:id',
             templateUrl: 'views/Boat/boat-detail.html',
             controller: 'BoatDetailCtrl'
+        })
+        .state('admin.users', {
+            url: '/users',
+            templateUrl: 'views/User/user-list.html',
+            controller: 'UserListCtrl'
+        })
+        .state('admin.usersAdd', {
+            url: '/users/add', 
+            templateUrl: 'views/User/user-add.html',
+            controller: 'UserActionCtrl'
+        })
+        .state('admin.user', {
+            url: '/users/:id', 
+            templateUrl: 'views/User/user-detail.html',
+            controller: 'UserDetailCtrl'
         });
     }
 ]);

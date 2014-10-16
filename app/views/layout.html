@@ -22,7 +22,7 @@
           <li ng-class="pageActive == 'inscription' && 'active'">
             <a title="Inscription" ui-sref="root.inscription">Inscription</a>
           </li>
-          <li ng-class="pageActive == 'resultats' && 'active'">
+          <!--<li ng-class="pageActive == 'resultats' && 'active'">
             <a title="Résultats" ui-sref="root.resultats">Résultats</a>
           </li>
           <!--<li ng-class="pageActive == 'galerie' && 'active'">
@@ -30,7 +30,7 @@
           </li><!-- -->
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a ui-sref="root.login">Admin</a></li>
+          <li><a class="notvisible" ui-sref="admin.dashboard">Admin</a></li>
         </ul>
       </div>
     </div>
