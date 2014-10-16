@@ -31,13 +31,13 @@
             <div class="form-group">
                 <label for="inputPassword" class="col-md-2 text-right control-label">Mot de passe</label>
                 <div class="col-md-10">
-                    <input type="text" class="form-control" id="inputPassword" ng-model="user.password" placeholder="Mot de passe">
+                    <input type="password" class="form-control" id="inputPassword" ng-model="user.password" placeholder="Mot de passe">
                 </div>
             </div>
             <div class="form-group" ng-class="user.password != user.passwordBis && 'has-error' || ''">
                 <label for="inputPasswordBis" class="col-md-2 text-right control-label">Confirmation</label>
                 <div class="col-md-10">
-                    <input type="text" class="form-control" id="inputPasswordBis" ng-model="user.passwordBis" placeholder="Confirmer le mot de passe">
+                    <input type="password" class="form-control" id="inputPasswordBis" ng-model="user.passwordBis" placeholder="Confirmer le mot de passe">
                 </div>
             </div>
             <div class="form-group">
